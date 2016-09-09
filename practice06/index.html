@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+        <script>
+            $(document).ready(function () {
+                applyClickHandler();
+            });
+
+            function applyClickHandler(){
+                console.log('a click handler was set up');
+                $('button').click(function(){
+                    var leonardoOfPisaSequence = fibSequence($('input').val());
+                    $('#answer').text(leonardoOfPisaSequence);
+                });
+            }
+
+            function fibSequence(numbers_in_sequence) {
+                if(typeof numbers_in_sequence === "string"){
+                    numbers_in_sequence = parseInt(numbers_in_sequence);
+                }
+
+                var answer_string = "";
+                var fibArray= [0 , 1];
+                for (var i=2; i<numbers_in_sequence; i++){
+                    fibArray.push(fibArray[i-2] + fibArray[i-1]);
+                }
+
+                for(var i = 0; i < fibArray.length; i++){
+                    answer_string += fibArray[i] + " ";
+                }
+                //return fibArray;
+                return answer_string;
+            }
+
+            console.log("fibSequence(2): ", fibSequence(2));
+            console.log("fibSequence(3): ", fibSequence(3));
+            console.log("fibSequence(4): ", fibSequence(4));
+            console.log("fibSequence(5): ", fibSequence(5));
+            console.log("fibSequence(12): ", fibSequence(12));
+
+            // $("#answer_div")
+//            var leonardoOfPisa = $('#answer').text(fibSequence(12));
+
+
+//            var fibonacciString = $('#answer').text(leonardoOfPisaSequence);
+//            $('body').append(fibonacciString);
+        </script>
+        <style></style>
+    </head>
+    <body>
+    <h1>Fibonacci Sequence</h1>
+        <input type="text" placeholder="find nth sequence">
+        <button>Calculate nth sequence</button>
+        <p id="answer"></p>
+    </body>
+</html>
