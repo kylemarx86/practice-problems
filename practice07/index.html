@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script>
+        $(document).ready(function () {
+            applyClickHandler();
+        });
+
+        function applyClickHandler() {
+            $('button').click(function () {
+                console.log('button was clicked');
+                var sentenceText = $('input').val().toLowerCase();
+                $('#result').text(translateSentenceToPigLatin(sentenceText));
+            });
+        }
+
+
+        function translateSentenceToPigLatin(sentence) {
+            //split the sentence up into words
+            var wordsInSentence = sentence.split(' ');
+
+            //create an empty string to store translated words
+            var translatedSentence = '';
+
+            //translate each word to pig Latin and add it to the translated sentence
+            for(var i = 0; i < wordsInSentence.length; i++){
+                translatedSentence += translateWordToPigLatin(wordsInSentence[i]);
+                if(i < wordsInSentence.length - 1)
+                    translatedSentence += ' ';
+            }
+            return translatedSentence;
+        }
+
+        //translates each word to pig Latin
+        function translateWordToPigLatin(word) {
+            //for a word determine if it begins with vowel or not
+            var firstLetter = word.substring(0,1);
+            var lastCharacter = '';
+            //if the word end in a punctuation mark store that last character to be added on later
+            if(wordEndsInPunctuation(word)){
+                lastCharacter = word.substring(word.length - 1);
+                word = word.substring(0, word.length - 1);
+            }
+            //split up the word into cases depending on whether it starts with a vowel: a, e, i, o, u; or a consonant
+            switch (firstLetter){
+                case 'a':
+                case 'e':
+                case 'i':
+                case 'o':
+                case 'u':
+                    word += 'yay';
+                    break;
+                default:
+                    var firstVowelIndex = locationOfFirstVowel(word);
+                    word = word.substring(firstVowelIndex) + word.substring(0, firstVowelIndex) + 'ay';
+            }
+            //add in the potential punctuation marks
+            word += lastCharacter;
+            return word;
+        }
+
+        //find the location of the first vowel
+        function locationOfFirstVowel(word) {
+            var location = word.length;
+            var vowels = ['a','e','i','o','u'];
+            for(var index = 0; index < vowels.length; index++){
+                //will check if
+                if(word.includes(vowels[index]) && (word.indexOf(vowels[index]) < location))
+                    location = word.indexOf(vowels[index]);
+            }
+            return location;
+        }
+
+        //Determines if the word ends in punctuation
+        //words were all put in lowercase by previous function, so all characters passed should have char Codes between 97 and 122 or be a special character
+        function wordEndsInPunctuation(word) {
+            var lastCharactersValue = word.charCodeAt(word.length - 1);
+            if(lastCharactersValue >= 97 && lastCharactersValue <= 122){
+                return false;
+            }else {
+                return true;
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <h1>Pig Latin Converter</h1>
+    <input type="text" placeholder="translate this sentence"><br>
+    <button>Translate</button>
+    <p id="result"></p>
+</body>
+</html>
