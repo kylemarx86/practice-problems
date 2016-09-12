@@ -10,7 +10,7 @@
         function applyClickHandler() {
             $('button').click(function () {
                 console.log('button was clicked');
-                var sentenceText = $('input').val().toLowerCase();
+                var sentenceText = $('input').val();
                 $('#result').text(translateSentenceToPigLatin(sentenceText));
             });
         }
@@ -36,6 +36,11 @@
         function translateWordToPigLatin(word) {
             //for a word determine if it begins with vowel or not
             var firstLetter = word.substring(0,1);
+            var firstLetterLower = firstLetter.toLowerCase();
+            var wordStartsWithCap = false;
+            if(firstLetter !== firstLetterLower){
+                wordStartsWithCap = true;
+            }
             var lastCharacter = '';
             //if the word end in a punctuation mark store that last character to be added on later
             if(wordEndsInPunctuation(word)){
@@ -43,19 +48,18 @@
                 word = word.substring(0, word.length - 1);
             }
             //split up the word into cases depending on whether it starts with a vowel: a, e, i, o, u; or a consonant
-            switch (firstLetter){
-                case 'a':
-                case 'e':
-                case 'i':
-                case 'o':
-                case 'u':
-                    word += 'yay';
-                    break;
-                default:
-                    var firstVowelIndex = locationOfFirstVowel(word);
-                    word = word.substring(firstVowelIndex) + word.substring(0, firstVowelIndex) + 'ay';
+            var firstVowelIndex = locationOfFirstVowel(word);
+
+            if(firstVowelIndex === 0){
+                word += 'yay';
+            }else{
+                word = word.substring(firstVowelIndex) + word.substring(0, firstVowelIndex) + 'ay';
             }
-            //add in the potential punctuation marks
+
+            if(wordStartsWithCap){
+                word = word.substring(0,1).toUpperCase() + word.substring(1);
+            }
+
             word += lastCharacter;
             return word;
         }
