@@ -36,11 +36,12 @@
         function translateWordToPigLatin(word) {
             //for a word determine if it begins with vowel or not
             var firstLetter = word.substring(0,1);
-            var firstLetterLower = firstLetter.toLowerCase();
             var wordStartsWithCap = false;
-            if(firstLetter !== firstLetterLower){
+            if(firstLetter !== firstLetter.toLowerCase()){
                 wordStartsWithCap = true;
             }
+//            var firstLetterLower = firstLetter.toLowerCase();
+            word = word.toLowerCase();
             var lastCharacter = '';
             //if the word end in a punctuation mark store that last character to be added on later
             if(wordEndsInPunctuation(word)){
