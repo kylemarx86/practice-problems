@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script>
+        $(document).ready(function () {
+            readyClickHandler();
+        });
+
+        function readyClickHandler() {
+            $('button').click(function () {
+                console.log('button was clicked');
+                var number = $('#number').val();
+                $('#result').text(number);
+
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Convert string to character code</h1>
+    <input type="text" id="number" placeholder="Insert text here">
+    <button>Submit</button>
+    <p id="result"></p>
+</body>
+</html>
